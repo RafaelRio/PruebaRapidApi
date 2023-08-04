@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.pruebarapidapi.databinding.FragmentAnimeListBinding
 import com.example.pruebarapidapi.model.AnimeItem
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class AnimeListFragment : Fragment() {
 
@@ -42,7 +43,8 @@ class AnimeListFragment : Fragment() {
             btn.setOnClickListener {
                 lifecycleScope.launch {
                     animeList = miViewModel.getAnimes()
-                    txt.text = animeList?.get(0)!!.title
+                    val random = Random.nextInt(0, animeList!!.size)
+                    txt.text = animeList?.get(random)!!.title
                 }
             }
         }

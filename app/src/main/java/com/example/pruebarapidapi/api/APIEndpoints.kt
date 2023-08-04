@@ -10,9 +10,9 @@ import retrofit2.http.Query
 interface APIEndpoints {
 
     @GET("anime")
-    fun getAnimeList(
+    suspend fun getAnimeList(
         @Header("X-RapidAPI-Key") apiKey: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): Call<AnimeResponse>
+    ): AnimeResponse
 }
