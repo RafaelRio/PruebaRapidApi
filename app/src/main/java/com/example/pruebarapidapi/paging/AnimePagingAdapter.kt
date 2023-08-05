@@ -1,5 +1,6 @@
 package com.example.pruebarapidapi.paging
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -26,6 +27,7 @@ class AnimePagingAdapter(
         return ViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: AnimePagingAdapter.ViewHolder, position: Int) {
         val item = getItem(position)
 
@@ -33,6 +35,7 @@ class AnimePagingAdapter(
             holder.itemView.setOnClickListener { itemClickListener(item) }
             holder.binding.tvName.text = item.title
             holder.binding.imvAnime.load(item.image)
+            holder.binding.tvNumEpisodios.text = "${item.episodes} episodes"
         }
     }
 }

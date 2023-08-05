@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EEF9FA"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -17,24 +18,30 @@
             android:id="@+id/tilName"
             android:layout_weight="1"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
+            style="@style/PM_TextInputLayout"
             android:layout_marginHorizontal="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tieName"
                 android:layout_width="match_parent"
+                style="@style/PM_TextInputEditTextRegister"
                 android:layout_height="match_parent"
+                android:textCursorDrawable="@color/primaryColor"
                 android:inputType="textNoSuggestions"
-                android:hint="Buscar"
+                android:hint="Anime name"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/btn_buscar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Buscar"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/ic_search"
+            style="@style/CircleImage"
+            android:background="@color/primaryColor"
+            android:layout_marginEnd="20dp"
+            android:tint="@color/white"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -43,7 +50,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEF9FA"
+
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

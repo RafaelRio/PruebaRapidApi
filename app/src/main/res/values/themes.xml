@@ -14,10 +14,54 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="CircularImageViewShape">
+    <style name="RoundedAppearanceOverlay">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20%</item>
+    </style>
+
+    <style name="RoundedImage">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="shapeAppearanceOverlay">@style/RoundedAppearanceOverlay</item>
+    </style>
+
+    <style name="CircleAppearanceOverlay">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="CircleImage">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="shapeAppearanceOverlay">@style/CircleAppearanceOverlay</item>
+    </style>
+
+    <style name="PM_TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@color/textColor</item>
+        <item name="boxCornerRadiusTopStart">11dp</item>
+        <item name="boxCornerRadiusTopEnd">11dp</item>
+        <item name="boxCornerRadiusBottomStart">11dp</item>
+        <item name="boxCornerRadiusBottomEnd">11dp</item>
+        <item name="errorIconDrawable">@null</item>
+        <item name="boxStrokeWidth">1.35dp</item>
+        <item name="boxStrokeColor">@color/primaryColor</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="PM_TextInputEditTextRegister" parent="PM_LoginTextInputEditText">
+        <item name="android:textSize">17sp</item>
+        <item name="drawableTint">#990D003B</item>
+    </style>
+
+    <style name="PM_LoginTextInputEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:fontFamily">@font/edu_sa</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:textColorHint">@color/textColor</item>
+    </style>
 
 </resources>
