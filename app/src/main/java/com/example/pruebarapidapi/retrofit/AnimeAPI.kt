@@ -1,18 +1,16 @@
-package com.example.pruebarapidapi.api
+package com.example.pruebarapidapi.retrofit
 
-import com.example.pruebarapidapi.model.AnimeItem
-import com.example.pruebarapidapi.model.AnimeResponse
-import retrofit2.Call
+import com.example.pruebarapidapi.models.AnimeResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-interface APIEndpoints {
+interface AnimeAPI {
 
     @GET("anime")
     suspend fun getAnimeList(
         @Header("X-RapidAPI-Key") apiKey: String,
         @Query("page") page: Int,
-        @Query("size") size: Int
+        @Query("size") size: Int,
     ): AnimeResponse
 }

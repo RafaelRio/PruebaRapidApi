@@ -1,12 +1,18 @@
 package com.example.pruebarapidapi.ui
 
 import androidx.lifecycle.ViewModel
-import com.example.pruebarapidapi.api.API
-import com.example.pruebarapidapi.model.AnimeItem
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import com.example.pruebarapidapi.repository.AnimeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AnimeViewModel : ViewModel() {
+@HiltViewModel
+class AnimeViewModel @Inject constructor(
+    private val animeRepository: AnimeRepository,
+) : ViewModel() {
 
-    suspend fun getAnimes() : List<AnimeItem>? {
-        return API.getAnimeList(page = 1, size = 10)
-    }
+    var animeList = animeRepository
+        .getAnimesFlow()
+        .cachedIn(viewModelScope)
 }

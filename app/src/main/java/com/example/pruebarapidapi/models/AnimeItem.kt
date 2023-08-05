@@ -1,4 +1,4 @@
-package com.example.pruebarapidapi.model
+package com.example.pruebarapidapi.models
 
 import com.google.gson.annotations.SerializedName
 

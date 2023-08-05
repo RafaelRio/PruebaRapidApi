@@ -6,17 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.example.pruebarapidapi.databinding.FragmentAnimeListBinding
-import com.example.pruebarapidapi.model.AnimeItem
+import com.example.pruebarapidapi.paging.AnimePagingAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
+@AndroidEntryPoint
 class AnimeListFragment : Fragment() {
 
     private lateinit var binding: FragmentAnimeListBinding
     private lateinit var miViewModel: AnimeViewModel
-    private var animeList: List<AnimeItem>? = emptyList()
+    private val animeAdapter = AnimePagingAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,27 +30,31 @@ class AnimeListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAnimeListBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch {
-            animeList = miViewModel.getAnimes()
-        }
 
+        subscribeToEvents()
+
+        initUi()
+    }
+
+    private fun initUi() {
         binding.apply {
-            txt.text = animeList.toString()
+            recyclerView.adapter = animeAdapter
+        }
+    }
 
-            btn.setOnClickListener {
-                lifecycleScope.launch {
-                    animeList = miViewModel.getAnimes()
-                    val random = Random.nextInt(0, animeList!!.size)
-                    txt.text = animeList?.get(random)!!.title
+    private fun subscribeToEvents() {
+        lifecycleScope.launch {
+            miViewModel.animeList.flowWithLifecycle(lifecycle)
+                .collectLatest { animes ->
+                    animeAdapter.submitData(animes)
                 }
-            }
         }
     }
 }
