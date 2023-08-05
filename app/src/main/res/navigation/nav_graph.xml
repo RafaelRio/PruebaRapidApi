@@ -9,5 +9,18 @@
         android:id="@+id/animeListFragment"
         android:name="com.example.pruebarapidapi.ui.AnimeListFragment"
         android:label="fragment_anime_list"
-        tools:layout="@layout/fragment_anime_list" />
+        tools:layout="@layout/fragment_anime_list" >
+        <action
+            android:id="@+id/action_animeListFragment_to_animeInfoFragment"
+            app:destination="@id/animeInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/animeInfoFragment"
+        android:name="com.example.pruebarapidapi.ui.AnimeInfoFragment"
+        android:label="fragment_anime_info"
+        tools:layout="@layout/fragment_anime_info" >
+        <argument
+            android:name="anime"
+            app:argType="com.example.pruebarapidapi.models.AnimeItem" />
+    </fragment>
 </navigation>

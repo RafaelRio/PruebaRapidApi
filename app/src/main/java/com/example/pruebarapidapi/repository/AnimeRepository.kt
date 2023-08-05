@@ -29,24 +29,9 @@ class AnimeRepository @Inject constructor(
         pagingSourceFactory = { createPagingSource() },
     ).flow
 
-    suspend fun getAnimeList(page: Int, size: Int): Result<List<AnimeItem>> {
-        return try {
-            val response = animeAPI.getAnimeList(Constants.apiKey, page, size)
-
-            Result.success(response.animeList)
-        }
-        catch (e: IOException) {
-            Result.failure(e)
-        }
-        catch (e: HttpException) {
-            Result.failure(e)
-        }
-        catch (e: CancellationException) {
-            throw e
-        }
-        catch (e: Exception) {
-            Result.failure(e)
-        }
+    suspend fun getAnimeById(id: Int): AnimeItem {
+        val response = animeAPI.getAnimeByid(apiKey = Constants.apiKey, id = id)
+        return response
     }
 }
 

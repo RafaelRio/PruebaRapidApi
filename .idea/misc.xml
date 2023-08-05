@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/anime_item.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_anime_info.xml" value="0.35208333333333336" />
         <entry key="app/src/main/res/layout/fragment_anime_list.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/item_retry.xml" value="0.25729166666666664" />
       </map>

@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.LoadState
 import com.example.pruebarapidapi.databinding.FragmentAnimeListBinding
 import com.example.pruebarapidapi.paging.AnimePagingAdapter
@@ -20,7 +22,7 @@ class AnimeListFragment : Fragment() {
 
     private lateinit var binding: FragmentAnimeListBinding
     private lateinit var miViewModel: AnimeViewModel
-    private val animeAdapter = AnimePagingAdapter()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,24 +39,29 @@ class AnimeListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        subscribeToEvents()
-
         initUi()
     }
 
     private fun initUi() {
-        binding.apply {
-            recyclerView.adapter = animeAdapter
-        }
-    }
+        val animePagingAdapter = AnimePagingAdapter(
+            itemClickListener = { anime ->
+                val action = AnimeListFragmentDirections.actionAnimeListFragmentToAnimeInfoFragment(anime)
+                NavHostFragment.findNavController(this@AnimeListFragment).navigate(action)
+            }
+        )
 
-    private fun subscribeToEvents() {
         lifecycleScope.launch {
             miViewModel.animeList.flowWithLifecycle(lifecycle)
                 .collectLatest { animes ->
-                    animeAdapter.submitData(animes)
+                    animePagingAdapter.submitData(animes)
                 }
         }
+        binding.apply {
+            recyclerView.adapter = animePagingAdapter
+        }
+
+
     }
+
+
 }
