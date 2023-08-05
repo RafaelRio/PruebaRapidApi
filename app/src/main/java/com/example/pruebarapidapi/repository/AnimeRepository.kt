@@ -16,23 +16,14 @@ class AnimeRepository @Inject constructor(
 ) {
     private val pageState = PaginationState(currentPagePosition = null)
 
-    fun jumpToPage(page: Int?) {
-        pageState.currentPagePosition = page
+    private fun createPagingSource(title: String): AnimePagingSource {
+        return AnimePagingSource(animeApi = animeAPI, initialPage = 1, title = title)
     }
 
-    private fun createPagingSource(): AnimePagingSource {
-        return AnimePagingSource(animeApi = animeAPI, initialPage = 1)
-    }
-
-    fun getAnimesFlow() = Pager(
+    fun getAnimesFlow(title: String) = Pager(
         config = PagingConfig(pageSize = 20, maxSize = 100),
-        pagingSourceFactory = { createPagingSource() },
+        pagingSourceFactory = { createPagingSource(title = title) },
     ).flow
-
-    suspend fun getAnimeById(id: Int): AnimeItem {
-        val response = animeAPI.getAnimeByid(apiKey = Constants.apiKey, id = id)
-        return response
-    }
 }
 
 class PaginationState(var currentPagePosition: Int?)

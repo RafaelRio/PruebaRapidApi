@@ -10,12 +10,13 @@ import com.example.pruebarapidapi.util.Constants
 class AnimePagingSource(
     private val animeApi: AnimeAPI,
     private val initialPage: Int,
+    private val title: String
 ) : PagingSource<Int, AnimeItem>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AnimeItem> {
         val position = params.key ?: initialPage
         return try {
-            val response = animeApi.getAnimeList(Constants.apiKey, position, params.loadSize)
+            val response = animeApi.getAnimeList(Constants.apiKey, position, params.loadSize, title)
             val animeList = response.animeList
             val nextKey = if (animeList.isEmpty()) {
                 null

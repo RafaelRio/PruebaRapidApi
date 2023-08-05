@@ -13,11 +13,7 @@ interface AnimeAPI {
         @Header("X-RapidAPI-Key") apiKey: String,
         @Query("page") page: Int,
         @Query("size") size: Int,
+        @Query("search") title: String = ""
     ): AnimeResponse
 
-    @GET("anime/by-id")
-    suspend fun getAnimeByid(
-        @Header("X-RapidAPI-Key") apiKey: String,
-        @Query("id") id: Int
-    ): AnimeItem
 }
