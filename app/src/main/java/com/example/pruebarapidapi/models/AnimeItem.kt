@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class AnimeItem(
     val _id: String,
-    val alternativeTitles: List<String>,
+    val alternativeTitles: ArrayList<String>,
     val episodes: Int,
     val genres: List<String>,
     val hasEpisode: Boolean,

@@ -2,7 +2,6 @@ package com.example.pruebarapidapi.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.pruebarapidapi.repository.PaginationState
 import com.example.pruebarapidapi.models.AnimeItem
 import com.example.pruebarapidapi.retrofit.AnimeAPI
 import com.example.pruebarapidapi.util.Constants

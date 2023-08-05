@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_list_item_1.xml" value="0.2890123984608807" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/alternative_title_item.xml" value="0.2890123984608807" />
         <entry key="app/src/main/res/layout/anime_item.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_anime_info.xml" value="0.35208333333333336" />
         <entry key="app/src/main/res/layout/fragment_anime_list.xml" value="0.25" />

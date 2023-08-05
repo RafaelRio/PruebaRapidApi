@@ -14,7 +14,6 @@ import kotlin.coroutines.cancellation.CancellationException
 class AnimeRepository @Inject constructor(
     private val animeAPI: AnimeAPI,
 ) {
-    private val pageState = PaginationState(currentPagePosition = null)
 
     private fun createPagingSource(title: String): AnimePagingSource {
         return AnimePagingSource(animeApi = animeAPI, initialPage = 1, title = title)
@@ -25,5 +24,3 @@ class AnimeRepository @Inject constructor(
         pagingSourceFactory = { createPagingSource(title = title) },
     ).flow
 }
-
-class PaginationState(var currentPagePosition: Int?)

@@ -15,5 +15,4 @@ interface AnimeAPI {
         @Query("size") size: Int,
         @Query("search") title: String = ""
     ): AnimeResponse
-
 }

@@ -10,4 +10,5 @@
 
     <color name="primaryColor">#00A6FB</color>
     <color name="textColor">#051923</color>
+    <color name="backgroundColor">#EEF9FA</color>
 </resources>
