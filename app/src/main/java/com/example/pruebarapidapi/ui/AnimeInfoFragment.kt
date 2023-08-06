@@ -59,7 +59,7 @@ class AnimeInfoFragment : Fragment() {
         binding.apply {
             imvAnime.load(anime.image)
             lifecycleScope.launch {
-                tvAnimeName.text = translateText(Constants.deeplApiKey, anime.synopsis, "ES")
+                tvAnimeName.text = miViewModel.translateText(Constants.deeplApiKey, anime.synopsis, "ES")
             }
 
             tvAnimeStatus.text = anime.status
@@ -67,24 +67,6 @@ class AnimeInfoFragment : Fragment() {
             val adapter = StringAdapter(requireContext(), dataList)
             rvAlternativeTitles.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             rvAlternativeTitles.adapter = adapter
-        }
-    }
-
-    private suspend fun translateText(apiKey: String, text: String, targetLang: String): String {
-        val deepLService: TranslationAPI = DeepLApiClient.getTranslationService()
-        val call: Call<TranslationResponse> = deepLService.translateText(apiKey, text, targetLang)
-
-        return try {
-            val response = call.awaitResponse()
-            if (response.isSuccessful) {
-                val translationResponse: TranslationResponse? = response.body()
-                return translationResponse?.translations?.get(0)?.translatedText ?: "AAA"
-            } else {
-                ""
-            }
-        } catch (e: Exception) {
-            // Manejar el error de la red
-            ""
         }
     }
 }
