@@ -7,7 +7,7 @@ data class AnimeItem(
     val _id: String,
     val alternativeTitles: ArrayList<String>,
     val episodes: Int,
-    val genres: List<String>,
+    val genres: ArrayList<String>,
     val hasEpisode: Boolean,
     val hasRanking: Boolean,
     val image: String,

@@ -12,19 +12,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.pruebarapidapi.databinding.FragmentAnimeInfoBinding
-import com.example.pruebarapidapi.di.DeepLApiClient
 import com.example.pruebarapidapi.models.AnimeItem
-import com.example.pruebarapidapi.models.TranslationResponse
 import com.example.pruebarapidapi.paging.StringAdapter
-import com.example.pruebarapidapi.retrofit.TranslationAPI
 import com.example.pruebarapidapi.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.awaitResponse
 
 @AndroidEntryPoint
 class AnimeInfoFragment : Fragment() {
@@ -58,15 +50,22 @@ class AnimeInfoFragment : Fragment() {
     private fun initUI() {
         binding.apply {
             imvAnime.load(anime.image)
+            tvAnimeName.text = anime.title
             lifecycleScope.launch {
-                tvAnimeName.text = miViewModel.translateText(Constants.deeplApiKey, anime.synopsis, "ES")
+                tvAnimeStatus.text = miViewModel.translateText(anime.status, "ES")
+                tvSinopsis.text = miViewModel.translateText(anime.synopsis, "ES")
             }
 
-            tvAnimeStatus.text = anime.status
-            val dataList: ArrayList<String> = anime.alternativeTitles
-            val adapter = StringAdapter(requireContext(), dataList)
+
+            val alternativeTitles: ArrayList<String> = anime.alternativeTitles
+            val atAdapter = StringAdapter(requireContext(), alternativeTitles)
             rvAlternativeTitles.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            rvAlternativeTitles.adapter = adapter
+            rvAlternativeTitles.adapter = atAdapter
+
+            val genres: ArrayList<String> = anime.genres
+            val gAdapter = StringAdapter(requireContext(), genres)
+            rvGenres.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            rvGenres.adapter = gAdapter
         }
     }
 }
