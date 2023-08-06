@@ -6,22 +6,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.pruebarapidapi.databinding.FragmentAnimeInfoBinding
+import com.example.pruebarapidapi.di.DeepLApiClient
 import com.example.pruebarapidapi.models.AnimeItem
+import com.example.pruebarapidapi.models.TranslationResponse
 import com.example.pruebarapidapi.paging.StringAdapter
+import com.example.pruebarapidapi.retrofit.TranslationAPI
+import com.example.pruebarapidapi.util.Constants
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.awaitResponse
 
+@AndroidEntryPoint
 class AnimeInfoFragment : Fragment() {
 
     private val args: AnimeInfoFragmentArgs by navArgs()
     private lateinit var anime: AnimeItem
     private lateinit var binding: FragmentAnimeInfoBinding
+    private lateinit var miViewModel: DeeplViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         anime = args.anime
+        miViewModel = ViewModelProvider(this)[DeeplViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -41,12 +58,33 @@ class AnimeInfoFragment : Fragment() {
     private fun initUI() {
         binding.apply {
             imvAnime.load(anime.image)
-            tvAnimeName.text = anime.title
+            lifecycleScope.launch {
+                tvAnimeName.text = translateText(Constants.deeplApiKey, anime.synopsis, "ES")
+            }
+
             tvAnimeStatus.text = anime.status
             val dataList: ArrayList<String> = anime.alternativeTitles
             val adapter = StringAdapter(requireContext(), dataList)
             rvAlternativeTitles.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             rvAlternativeTitles.adapter = adapter
+        }
+    }
+
+    private suspend fun translateText(apiKey: String, text: String, targetLang: String): String {
+        val deepLService: TranslationAPI = DeepLApiClient.getTranslationService()
+        val call: Call<TranslationResponse> = deepLService.translateText(apiKey, text, targetLang)
+
+        return try {
+            val response = call.awaitResponse()
+            if (response.isSuccessful) {
+                val translationResponse: TranslationResponse? = response.body()
+                return translationResponse?.translations?.get(0)?.translatedText ?: "AAA"
+            } else {
+                ""
+            }
+        } catch (e: Exception) {
+            // Manejar el error de la red
+            ""
         }
     }
 }
