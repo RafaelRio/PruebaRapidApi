@@ -46,6 +46,11 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipe_to_refresh">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -54,6 +59,9 @@
         android:paddingBottom="5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/anime_item" />
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -20,4 +20,8 @@ data class AnimeItem(
     val type: String
 ): Serializable
 
+data class Genre(val _id: String)
+
 data class AnimeResponse(@SerializedName("data") val animeList: List<AnimeItem>)
+
+data class Genres(val genreList: List<Genre>)

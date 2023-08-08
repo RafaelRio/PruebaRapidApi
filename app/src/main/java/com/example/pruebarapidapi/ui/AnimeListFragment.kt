@@ -23,6 +23,7 @@ class AnimeListFragment : Fragment() {
 
     private lateinit var binding: FragmentAnimeListBinding
     private lateinit var miViewModel: AnimeViewModel
+    private lateinit var animePagingAdapter: AnimePagingAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,7 @@ class AnimeListFragment : Fragment() {
     }
 
     private fun initUi() {
-        val animePagingAdapter = AnimePagingAdapter(
+        animePagingAdapter = AnimePagingAdapter(
             itemClickListener = { anime ->
                 val action = AnimeListFragmentDirections.actionAnimeListFragmentToAnimeInfoFragment(anime)
                 NavHostFragment.findNavController(this@AnimeListFragment).navigate(action)
@@ -52,27 +53,33 @@ class AnimeListFragment : Fragment() {
         )
 
         lifecycleScope.launch {
-            miViewModel.getAllAnimes().flowWithLifecycle(lifecycle)
-                .collectLatest { animes ->
-                    animePagingAdapter.submitData(animes)
-                }
+            loadAnimes()
         }
         binding.btnBuscar.setOnClickListener {
-            lifecycleScope.launch {
-                miViewModel.getAllAnimes(binding.tieName.text.toString()).flowWithLifecycle(lifecycle)
-                    .collectLatest { animes ->
-                        animePagingAdapter.submitData(animes)
-                    }
-            }
+            miViewModel.filtersState.value.query = binding.tieName.text.toString()
+            loadAnimes()
+            //lifecycleScope.launch {
+              //  miViewModel.getGenres()
+            //}
         }
 
+        binding.swipeToRefresh.setOnRefreshListener {
+            loadAnimes()
+            binding.swipeToRefresh.isRefreshing = false
+        }
 
         binding.apply {
             recyclerView.adapter = animePagingAdapter
         }
-
-
     }
 
-
+    fun loadAnimes() {
+        lifecycleScope.launch {
+            miViewModel.getAllAnimes(miViewModel.filtersState.value.query).flowWithLifecycle(lifecycle)
+                .collect { animes ->
+                    animePagingAdapter.submitData(animes)
+                    binding.swipeToRefresh.isRefreshing = false
+                }
+        }
+    }
 }

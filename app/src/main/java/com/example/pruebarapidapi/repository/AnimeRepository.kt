@@ -3,6 +3,8 @@ package com.example.pruebarapidapi.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.example.pruebarapidapi.models.AnimeItem
+import com.example.pruebarapidapi.models.Genre
+import com.example.pruebarapidapi.models.Genres
 import com.example.pruebarapidapi.paging.AnimePagingSource
 import com.example.pruebarapidapi.retrofit.AnimeAPI
 import com.example.pruebarapidapi.util.Constants
@@ -23,4 +25,8 @@ class AnimeRepository @Inject constructor(
         config = PagingConfig(pageSize = 20, maxSize = 100),
         pagingSourceFactory = { createPagingSource(title = title) },
     ).flow
+
+    suspend fun getGenres() : List<Genre> {
+        return animeAPI.getGenres(Constants.animeApiKey)
+    }
 }
